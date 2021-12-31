@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:internationalization/internationalization.dart';
 
 class Translator {
-  static Translator _instance;
+  static late Translator _instance;
   static final Map<String, dynamic> _defaultLocaleStrings = new Map();
 
   final String _translationsPath;
@@ -14,7 +14,7 @@ class Translator {
 
   Translator._(this._translationsPath, this._locale, this._files);
 
-  Map<String, dynamic> _locationStrings;
+  Map<String, dynamic>? _locationStrings;
 
   factory Translator.newInstance(String translationsPath, Locale locale, List<String> files) {
     _instance = Translator._(
@@ -26,12 +26,12 @@ class Translator {
     return _instance;
   }
 
-  static Translator get instance {
+  static Translator? get instance {
     try {
       return Localizations.of<Translator>(
         Internationalization.context,
-        Translator,
-      );
+        Translator
+      )!;
     } catch (_) {}
 
     return _instance;
@@ -53,7 +53,7 @@ class Translator {
   }
 
   String _fullPathJsonStrings(Locale locale) {
-    if (locale?.countryCode?.isEmpty != false) {
+    if (locale.countryCode?.isEmpty != false) {
       return '$_translationsPath${locale.languageCode}/';
     }
 
@@ -62,27 +62,27 @@ class Translator {
 
   bool _stringExists(String key) =>
       _locationStrings?.containsKey(key) == true ||
-      _defaultLocaleStrings?.containsKey(key) == true;
+      _defaultLocaleStrings.containsKey(key) == true;
 
   dynamic _valueOf(String key) {
     if (_locationStrings == null) {
       return _defaultLocaleStrings[key];
     }
 
-    return _locationStrings[key] ?? _defaultLocaleStrings[key];
+    return _locationStrings![key] ?? _defaultLocaleStrings[key];
   }
 
   String _interpolateValue(
     String value,
-    List<String> args,
-    Map<String, dynamic> namedArgs,
+    List<String>? args,
+    Map<String, dynamic>? namedArgs,
   ) {
     for (int i = 0; i < (args?.length ?? 0); i++) {
-      value = value.replaceAll("{$i}", args[i]);
+      value = value.replaceAll("{$i}", args![i]);
     }
 
     if (namedArgs?.isNotEmpty == true) {
-      namedArgs.forEach(
+      namedArgs?.forEach(
         (entryKey, entryValue) => value = value.replaceAll(
           "::$entryKey::",
           entryValue.toString(),
@@ -95,8 +95,8 @@ class Translator {
 
   String valueOf(
     String key, {
-    List<String> args,
-    Map<String, dynamic> namedArgs,
+    List<String>? args,
+    Map<String, dynamic>? namedArgs,
   }) {
     if (!_stringExists(key)) {
       return key;
@@ -112,8 +112,8 @@ class Translator {
   String pluralOf(
     String key,
     int pluralValue, {
-    List<String> args,
-    Map<String, dynamic> namedArgs,
+    List<String>? args,
+    Map<String, dynamic>? namedArgs,
   }) {
     if (!_stringExists(key)) {
       return key;

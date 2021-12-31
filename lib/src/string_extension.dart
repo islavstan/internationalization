@@ -2,12 +2,12 @@ import 'translator.dart';
 
 extension StringExtension on String {
   String translate({
-    int pluralValue,
-    List<String> args,
-    Map<String, dynamic> namedArgs,
+    int? pluralValue,
+    List<String>? args,
+    Map<String, dynamic>? namedArgs,
   }) {
     if (pluralValue != null) {
-      final translation = Translator.instance.pluralOf(
+      final translation = Translator.instance?.pluralOf(
         this,
         pluralValue,
         args: args,
@@ -19,7 +19,7 @@ extension StringExtension on String {
       }
     }
 
-    return Translator.instance.valueOf(
+    return Translator.instance!.valueOf(
       this,
       args: args,
       namedArgs: namedArgs,

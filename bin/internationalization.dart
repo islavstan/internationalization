@@ -4,8 +4,8 @@ import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 import 'src/string_extension.dart';
 
-String _stringsPath;
-String _suportedLocales;
+String? _stringsPath;
+String? _suportedLocales;
 List<String> _filesName = [];
 List<String> _clazzes = [];
 List<String> _clazzInstances = [];

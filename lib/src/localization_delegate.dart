@@ -8,9 +8,9 @@ class InternationalizationDelegate extends LocalizationsDelegate<Translator> {
   final List<String> _files;
 
   InternationalizationDelegate({
-    @required String translationsPath,
-    @required List<Locale> suportedLocales,
-    @required List<String> files,
+    @required String? translationsPath,
+    @required List<Locale>? suportedLocales,
+    @required List<String>? files,
   })  : assert(
           translationsPath != null && translationsPath.isNotEmpty,
           "translationsPath can't be null or empty",
@@ -23,9 +23,9 @@ class InternationalizationDelegate extends LocalizationsDelegate<Translator> {
           files != null && files.isNotEmpty,
           "files can't be null or empty",
         ),
-        _translationsPath = translationsPath,
-        _suportedLocales = suportedLocales,
-        _files = files;
+        _translationsPath = translationsPath!,
+        _suportedLocales = suportedLocales!,
+        _files = files!;
 
   @override
   bool isSupported(Locale locale) => _suportedLocales
